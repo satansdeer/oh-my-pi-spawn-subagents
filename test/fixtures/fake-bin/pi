@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+import { appendFileSync } from 'node:fs';
+import { cwd, env, argv } from 'node:process';
+
+const record = {
+  cwd: cwd(),
+  args: argv.slice(2),
+  childFlag: env.OH_MY_PI_SPAWN_SUBAGENT_CHILD,
+  customEnv: env.SPAWN_TEST_VALUE,
+};
+if (env.FAKE_PI_LOG) appendFileSync(env.FAKE_PI_LOG, `${JSON.stringify(record)}\n`);
+if (env.FAKE_PI_EXIT) process.exit(Number(env.FAKE_PI_EXIT));
+console.log(`fake pi ran: ${argv.slice(2).join(' ')}`);
